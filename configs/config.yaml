@@ -1,0 +1,38 @@
+app:
+  host: 0.0.0.0
+  port: 8080
+  debug: false
+data:
+  train_csv: data/iptv_masked.csv
+  text_fields:
+  - 故障描述
+  - 错误码
+  - 涉及频道/内容
+  - 业务类型
+  - 故障小类
+  - 接入方式
+  - 提交渠道
+  - 工单来源
+  - 故障发生时段
+  - 机顶盒型号
+  label_field: 故障大类
+  dept_field: 分配部门
+model:
+  model_dir: models
+  model_file: ticket_clf.joblib
+  label_map_file: label_map.json
+  route_map_file: route_map.json
+  threshold_auto_route: 0.65
+routing:
+  default_queue: MANUAL_REVIEW
+  dept_to_queue:
+    IPTV技术支持组: QUEUE_TECH
+    区域装维团队: QUEUE_FIELD
+    IPTV业务咨询组: QUEUE_BIZ
+    IPTV内容运营组: QUEUE_CONTENT
+    IPTV硬件维护组: QUEUE_HARDWARE
+    IPTV账号授权组: QUEUE_ACCOUNT
+    IPTV增值业务组: QUEUE_VAS
+logging:
+  level: INFO
+  file: logs/app.log
